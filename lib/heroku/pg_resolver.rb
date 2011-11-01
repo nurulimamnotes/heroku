@@ -120,6 +120,10 @@ module PGResolver
       ENV["HEROKU_POSTGRESQL_ADDON_PREFIX"] || "HEROKU_POSTGRESQL"
     end
 
+    def self.shared_addon_prefix
+      ENV["HEROKU_SHARED_POSTGRESQL_ADDON_PREFIX"] || "HEROKU_SHARED_POSTGRESQL"
+    end
+
     def self.parse_config(config_vars)
       dbs = {}
       config_vars.each do |key,val|
@@ -128,6 +132,8 @@ module PGResolver
           dbs['DATABASE'] = val
         when 'SHARED_DATABASE_URL'
           dbs['SHARED_DATABASE'] = val
+        when "#{shared_addon_prefix.upcase}_URL"
+          dbs["HEROKU_SHARED_POSTGRESQL"] = val
         when /^(#{addon_prefix}\w+)_URL$/
           dbs[$+] = val # $+ is the last match
         end
