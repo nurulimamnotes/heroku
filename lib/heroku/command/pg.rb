@@ -103,11 +103,9 @@ module Heroku::Command
       end
     end
 
-    # pg:reset_password
+    # pg:reset_password <DATABASE>
     #
     # Reset the password on the database
-    #
-    # defaults to HEROKU_SHARED_POSTGRESQL_URL if no DATABASE is specified
     #
     def reset_password
       db = resolve_db
