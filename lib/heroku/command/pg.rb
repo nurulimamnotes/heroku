@@ -17,7 +17,6 @@ module Heroku::Command
     # defaults to all databases if no DATABASE is specified
     #
     def info
-      abort " !  Not yet implemented for #{db[:name]}" if db[:name] == Resolver.shared_addon_prefix
       specified_db_or_all { |db| display_db_info db }
     end
 
@@ -226,12 +225,9 @@ private
     end
 
     def display_info_shared_postgresql(db)
-      # TODO: Match DoD's output
       response = heroku_shared_postgresql_client(db[:url]).show_info
       response.each do |key, value|
-        if key =~ /(connection|bytes)/i
-          display " #{key.gsub('_', ' ').capitalize}: #{value ? value : 0}"
-        end
+        display " #{key.gsub('_', ' ').capitalize}: #{value ? value : 0}"
       end
     end
 
